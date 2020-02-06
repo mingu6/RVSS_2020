@@ -27,7 +27,6 @@ class NNState:
         self.init_lr = cfg['init_lr']
         self.device = torch.device("cuda:0" if torch.cuda.is_available()
                                    else "cpu")
-        print(cfg['num_classes'])
         self.net = AlexNet(cfg['num_classes']).to(self.device)
         self.exp_name = cfg['exp_name']
         self.best_acc = 10000

@@ -49,7 +49,6 @@ class Train:
                 labels = self.net_dict.to_device(labels)
                 # Forward
                 labels_hat = self.net_dict.net.forward(inputs)
-                print(labels, labels_hat)
                 loss = self.net_dict.criterion(labels_hat, labels)
                 # Backward
                 loss.backward()

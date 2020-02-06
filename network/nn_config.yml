@@ -1,13 +1,13 @@
 # This yaml file contains parameters essential to the network training
 
 # change the experiment name to start training a new one
-exp_name: 'pre_trained_00'
+exp_name: 'pre_trained_01'
 
-init_lr: 2.0e-4 # initial learning rate
+init_lr: 1.0e-4 # initial learning rate
 
 batch_size: 128
 
-n_epochs: 80 # total number of epochs
+n_epochs: 120 # total number of epochs
 
 weight_decay: 1.0e-4
 

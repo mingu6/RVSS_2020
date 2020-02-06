@@ -2,6 +2,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 import os, sys
 
+import time
+
 # Import integration components
 sys.path.insert(0, "{}/integration".format(os.getcwd()))
 import integration.penguinPiC
@@ -22,6 +24,7 @@ class Operate:
         self.ppi.set_velocity(0,0)
         self.img = np.zeros([240,320,3], dtype=np.uint8)
         self.aruco_img = np.zeros([240,320,3], dtype=np.uint8)
+        self.previous_time = -1
 
         # Set up subsystems
         camera_matrix, dist_coeffs, scale, baseline = self.getCalibParams(datadir)
@@ -58,10 +61,17 @@ class Operate:
         return camera_matrix, dist_coeffs, scale, baseline
 
     def control(self):
+        dt = 0
+        if self.previous_time == -1:
+            dt == 0
+        else:
+            dt = time.time() - self.previous_time
+
         lv, rv = self.keyboard.latest_drive_signal()
         if not self.data is None:
             self.data.write_keyboard(lv, rv)
-        drive_meas = Measurements.DriveMeasurement(lv, rv, dt=0.3)
+        drive_meas = Measurements.DriveMeasurement(lv, rv, dt)
+        self.previous_time = time.time()
         self.slam.predict(drive_meas)
 
     def vision(self):

@@ -1,0 +1,37 @@
+    def compute_armse(markers1, markers2):
+
+athresh = 90
+R(1) = [0 0; 0 0]
+sigma(1) = 6
+mstar = but god, m is a map !
+
+m = np.kron(np.identity(n), R(j));
+mstar(j) = mstar-mu
+n = np.kron(np.identity(n), e*R(j));
+
+while ||a(j)||2sigmab > 2athresh
+a(j) = (m.transpose()@mstar(j))+((m.transpose()@np.kron((np.ones(n),sigma(j)))-mcap))
+b(j) = (n.transpose()@mstar(j))+((n.transpose(n)@np.kron((np.ones(n),sigma(j))))
+C(j) = np.kron((np.ones(n)@np.identity)
+D(j) = a.transpose()
+
+(se(j), ae(j), mu(j)) = argmin ∣∣a(j) − Se@b(j) + C(j)@ae + D(j)@mu||consider limits + ||mstar(j) + mu -mcap|| consider limits
+
+R(k+1)) = R(j)exp(eSe(j))
+sigma(k+1) = sigma(j)+ae(j)
+mstar(k+1) = mstar(j)+mu(j)
+end
+
+(Rcap, sigmacap, m*cap) = (Rcap(j), sigma(j), m*(j));
+
+Result (Rcap, sigmacap,m*cap)
+
+
+return armse, R, t
+
+
+
+
+
+
+

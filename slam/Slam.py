@@ -16,8 +16,8 @@ class Slam:
         self.taglist = []
 
         # Covariance matrix
-        self.P = np.zeros((3,3))
-        self.init_lm_cov = 1e3
+        self.P = np.eye((3))*1e-3
+        self.init_lm_cov = 1e0
 
     def number_landmarks(self):
         return int(self.markers.shape[1])

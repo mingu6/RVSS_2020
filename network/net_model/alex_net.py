@@ -11,7 +11,7 @@ class AlexNet(nn.Module):
         self.features = nn.Sequential(*list(
                     alex_features.children())[:-1])
         self.fc = nn.Sequential(
-                                nn.Dropout(p=0.5),
+                                nn.Dropout(p=0.3),
                                 nn.Linear(256*3*3, 1024),
                                 nn.ReLU(),
                                 nn.Linear(1024, 256),

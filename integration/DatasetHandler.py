@@ -102,7 +102,7 @@ class OutputWriter:
         
     def __del__(self):
         self.img_f.close()
-        self.map_f.close()
+        #self.map_f.close()
     
     def write_map(self, slam):
         map_dict = {"taglist":slam.taglist,

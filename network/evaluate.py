@@ -72,7 +72,9 @@ class Evaluate:
                 score, pred = torch.max(val, 1)
                 # score, pred = score.float(), pred.float()
                 # pred = torch.where(score > 0.99, pred, torch.zeros(pred.size()))
-                heat_map += pred.data.reshape(num_patches)
+                #heat_map += pred.data.reshape(num_patches)
+                heat_map.append(pred.data.reshape(num_patches))
+            heat_map = torch.cat(heat_map)
         print("--- %.3fs seconds ---" % (time.time() - start_time))
         heat_map = np.asarray(heat_map).reshape(w_out, h_out)
         return heat_map
@@ -87,6 +89,7 @@ class Evaluate:
         """
         h, w = heat_map.shape
         out = np.ones((h, w, 3))
+        crocodile = np.array([255, 182, 193])/255.0
         elephant = np.array([66, 135, 245])/255.0
         llama = np.array([245, 114, 66])/255.0
         snake = np.array([16, 207, 6])/255.0
@@ -95,28 +98,31 @@ class Evaluate:
             for j in range(w):
                 if heat_map[i, j] == 0:
                     out[i, j, :] *= bg
-                elif heat_map[i, j] == 1:
-                    out[i, j, :] = elephant
+                if heat_map[i, j] == 1:
+                    out[i, j, :] *= crocodile
                 elif heat_map[i, j] == 2:
-                    out[i, j, :] = llama
+                    out[i, j, :] = elephant
                 elif heat_map[i, j] == 3:
+                    out[i, j, :] = llama
+                elif heat_map[i, j] == 4:
                     out[i, j, :] = snake
         bg_label = label_box.Patch(color=bg, label='bg[0]')
-        elephant_label = label_box.Patch(color=elephant, label='elephant[1]')
-        llama_label = label_box.Patch(color=llama, label='llama[2]')
-        snake_label = label_box.Patch(color=snake, label='snake[3]')
+        crocodile_label = label_box.Patch(color=crocodile, label='crocodile[1]')
+        elephant_label = label_box.Patch(color=elephant, label='elephant[2]')
+        llama_label = label_box.Patch(color=llama, label='llama[3]')
+        snake_label = label_box.Patch(color=snake, label='snake[4]')
         if overlay:
             out = Image.fromarray((out*255).astype('uint8'))
             out = out.resize(img.size)
             out = out.convert("RGBA")
             img = img.convert("RGBA")
             out = Image.blend(img, out, alpha=.6)
-            plt.legend(handles=[bg_label, elephant_label, llama_label,
+            plt.legend(handles=[bg_label, crocodile_label, elephant_label, llama_label,
                                 snake_label])
             plt.imshow(out)
         else:
             fig, ax = plt.subplots(1, 2)
-            ax[1].legend(handles=[bg_label, elephant_label, llama_label,
+            ax[1].legend(handles=[bg_label, crocodile_label, elephant_label, llama_label,
                                   snake_label])
             ax[0].imshow(img)
             ax[1].imshow(out)
@@ -169,9 +175,10 @@ class AnchorIMDB(Dataset):
 
 if __name__ == '__main__':
     exp = Evaluate()
-    # img_path = './dataset_tools/example_raw_data/20.png'
-    # img = Image.open(img_path)
-    # heat_map = exp.sliding_window(img)
-    img = Image.open(sys.argv[1])
+    #img_path = './collected_data/train/crocodile/3.png'
+    img_path = '../map1/1.png'
+    img = Image.open(img_path)
+    heat_map = exp.sliding_window(img)
+    #img = Image.open(sys.argv[1])
     heat_map = exp.sliding_window(img)
     exp.visualise_heatmap(heat_map, img, overlay=True)
