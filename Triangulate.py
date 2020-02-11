@@ -67,17 +67,17 @@ if __name__ == '__main__':
     #bearings3f = 'map3/bearings.txt'
     
     slam1 = SlamMap()
-    #slam2 = SlamMap()
+    # slam2 = SlamMap()
     #slam3 = SlamMap()
     
     slam1.load(map1f)
-    #slam2.load(map2f)
-    #slam3.load(map3f)
+    # slam2.load(map2f)
+    # #slam3.load(map3f)
 
-    #_, f1Rf2, f1tf2 = slam1.compute_tf(slam2)
+    # # _, f1Rf2, f1tf2 = slam1.compute_tf(slam2)
     #_, f1Rf3, f1tf3 = slam1.compute_tf(slam3)
 
-    #f1Tf2 = to_hom(f1Rf2, f1tf2)
+    # f1Tf2 = to_hom(f1Rf2, f1tf2)
     
     #f1Tf3 = to_hom(f1Rf3, f1tf3)
     
@@ -86,13 +86,14 @@ if __name__ == '__main__':
 
     with open(bearings1f, 'r') as bfile:
         for l in bfile.readlines():
+            print(l)
             d = json.loads(l)
             all_bearings.append(d)
-    # with open(bearings2f, 'r') as bfile:
-    #     for l in bfile.readlines():
-    #         d = json.loads(l)
-    #         d['pose'] = realign_to_frame(f1Tf2, d['pose'])
-    #         all_bearings.append(d)
+    #  with open(bearings2f, 'r') as bfile:
+    #      for l in bfile.readlines():
+    #          d = json.loads(l)
+    #          d['pose'] = realign_to_frame(f1Tf2, d['pose'])
+    #          all_bearings.append(d)
     # with open(bearings3f, 'r') as bfile:
     #     for l in bfile.readlines():
     #         d = json.loads(l)
@@ -117,13 +118,14 @@ if __name__ == '__main__':
     # plot transformed map and locations of animals 
     import matplotlib.pyplot as plt
     markers1 = np.vstack([slam1.markers, np.ones(len(slam1.markers[0]))])
-    #markers2 = np.vstack([slam2.markers, np.ones(len(slam2.markers[0]))])
-    #markers3 = np.vstack([slam3.markers, np.ones(len(slam3.markers[0]))])
+    # # markers2 = np.vstack([slam2.markers, np.ones(len(slam2.markers[0]))])
+    # #markers3 = np.vstack([slam3.markers, np.ones(len(slam3.markers[0]))])
 
-    #markers2_t = f1Tf2 @ markers2
+    # markers2_t = f1Tf2 @ markers2
     #markers3_t = f1Tf3 @ markers3
 
     plt.scatter(markers1[0], markers1[1], label='map1')
+    # plt.scatter(markers2_t[0], markers2_t[1], label='map2')
     plt.show()
     for key, value in animal_poses.items():
         plt.scatter(value[0], value[1], label=key)
